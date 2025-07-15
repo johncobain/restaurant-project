@@ -1,0 +1,200 @@
+.home-container {
+  min-height: 100vh;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.hero-section {
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary) 0%,
+    var(--mat-sys-tertiary) 100%
+  );
+  color: var(--mat-sys-on-primary);
+  padding: 4rem 2rem;
+  text-align: center;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--mat-sys-on-primary);
+  }
+
+  p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .cta-button {
+    background-color: var(--mat-sys-tertiary-container);
+    color: var(--mat-sys-on-tertiary-container);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 28px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--mat-sys-tertiary);
+      color: var(--mat-sys-on-tertiary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px
+        color-mix(in srgb, var(--mat-sys-shadow) 25%, transparent);
+    }
+  }
+}
+
+.features-section {
+  padding: 4rem 2rem;
+  background-color: var(--mat-sys-surface-container-low);
+
+  .section-title {
+    text-align: center;
+    color: var(--mat-sys-on-surface);
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .feature-card {
+      background-color: var(--mat-sys-surface-container);
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      border: 1px solid var(--mat-sys-outline-variant);
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px
+          color-mix(in srgb, var(--mat-sys-shadow) 20%, transparent);
+      }
+
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        background-color: var(--mat-sys-primary-container);
+        color: var(--mat-sys-on-primary-container);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        color: var(--mat-sys-on-surface);
+        margin-bottom: 1rem;
+      }
+
+      p {
+        color: var(--mat-sys-on-surface-variant);
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+.menu-preview {
+  padding: 4rem 2rem;
+  background-color: var(--mat-sys-surface);
+
+  .section-title {
+    text-align: center;
+    color: var(--mat-sys-on-surface);
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+  }
+
+  .menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .menu-item {
+      background-color: var(--mat-sys-surface-container);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--mat-sys-outline-variant);
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 8px 24px
+          color-mix(in srgb, var(--mat-sys-primary) 15%, transparent);
+      }
+
+      &.featured {
+        border-color: var(--mat-sys-tertiary);
+        background-color: var(--mat-sys-tertiary-container);
+
+        .item-badge {
+          background-color: var(--mat-sys-tertiary);
+          color: var(--mat-sys-on-tertiary);
+        }
+      }
+
+      .item-image {
+        height: 200px;
+        background: linear-gradient(
+          45deg,
+          var(--mat-sys-primary-container),
+          var(--mat-sys-secondary-container)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--mat-sys-on-primary-container);
+        font-size: 3rem;
+        position: relative;
+
+        .item-badge {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background-color: var(--mat-sys-primary);
+          color: var(--mat-sys-on-primary);
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+      }
+
+      .item-content {
+        padding: 1.5rem;
+
+        h4 {
+          color: var(--mat-sys-on-surface);
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          color: var(--mat-sys-on-surface-variant);
+          font-size: 0.9rem;
+          line-height: 1.5;
+          margin-bottom: 1rem;
+        }
+
+        .item-price {
+          color: var(--mat-sys-primary);
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+}

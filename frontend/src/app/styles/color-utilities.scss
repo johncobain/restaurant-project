@@ -1,0 +1,195 @@
+// Background utilities
+.bg-primary {
+  background-color: var(--mat-sys-primary) !important;
+}
+.bg-primary-container {
+  background-color: var(--mat-sys-primary-container) !important;
+}
+.bg-secondary {
+  background-color: var(--mat-sys-secondary) !important;
+}
+.bg-secondary-container {
+  background-color: var(--mat-sys-secondary-container) !important;
+}
+.bg-tertiary {
+  background-color: var(--mat-sys-tertiary) !important;
+}
+.bg-tertiary-container {
+  background-color: var(--mat-sys-tertiary-container) !important;
+}
+.bg-surface {
+  background-color: var(--mat-sys-surface) !important;
+}
+.bg-surface-container {
+  background-color: var(--mat-sys-surface-container) !important;
+}
+.bg-error {
+  background-color: var(--mat-sys-error) !important;
+}
+.bg-error-container {
+  background-color: var(--mat-sys-error-container) !important;
+}
+
+// Text color utilities
+.text-primary {
+  color: var(--mat-sys-primary) !important;
+}
+.text-on-primary {
+  color: var(--mat-sys-on-primary) !important;
+}
+.text-secondary {
+  color: var(--mat-sys-secondary) !important;
+}
+.text-on-secondary {
+  color: var(--mat-sys-on-secondary) !important;
+}
+.text-tertiary {
+  color: var(--mat-sys-tertiary) !important;
+}
+.text-on-tertiary {
+  color: var(--mat-sys-on-tertiary) !important;
+}
+.text-on-surface {
+  color: var(--mat-sys-on-surface) !important;
+}
+.text-on-surface-variant {
+  color: var(--mat-sys-on-surface-variant) !important;
+}
+.text-error {
+  color: var(--mat-sys-error) !important;
+}
+.text-on-error {
+  color: var(--mat-sys-on-error) !important;
+}
+
+// Border utilities
+.border-primary {
+  border-color: var(--mat-sys-primary) !important;
+}
+.border-secondary {
+  border-color: var(--mat-sys-secondary) !important;
+}
+.border-tertiary {
+  border-color: var(--mat-sys-tertiary) !important;
+}
+.border-outline {
+  border-color: var(--mat-sys-outline) !important;
+}
+.border-outline-variant {
+  border-color: var(--mat-sys-outline-variant) !important;
+}
+.border-error {
+  border-color: var(--mat-sys-error) !important;
+}
+
+// Restaurant-specific theme utilities
+.restaurant-header {
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary),
+    var(--mat-sys-tertiary)
+  );
+  color: var(--mat-sys-on-primary);
+}
+
+.menu-item {
+  background-color: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  &:hover {
+    background-color: var(--mat-sys-surface-container);
+  }
+
+  &.featured {
+    border-color: var(--mat-sys-tertiary);
+    background-color: color-mix(
+      in srgb,
+      var(--mat-sys-tertiary-container) 30%,
+      transparent
+    );
+  }
+}
+
+.order-status {
+  &.pending {
+    background-color: color-mix(
+      in srgb,
+      var(--mat-sys-primary) 15%,
+      transparent
+    );
+    color: var(--mat-sys-primary);
+    border: 1px solid var(--mat-sys-primary);
+  }
+
+  &.preparing {
+    background-color: color-mix(
+      in srgb,
+      var(--mat-sys-tertiary) 15%,
+      transparent
+    );
+    color: var(--mat-sys-tertiary);
+    border: 1px solid var(--mat-sys-tertiary);
+  }
+
+  &.ready {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+    border: 1px solid var(--mat-sys-secondary);
+  }
+
+  &.delivered {
+    background-color: color-mix(
+      in srgb,
+      var(--mat-sys-outline) 10%,
+      transparent
+    );
+    color: var(--mat-sys-on-surface-variant);
+    border: 1px solid var(--mat-sys-outline);
+  }
+}
+
+// Accessibility helpers
+.high-contrast {
+  border: 2px solid var(--mat-sys-outline);
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+}
+
+.primary-button {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+
+  &:hover {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+  }
+}
+
+.secondary-card {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  border: 1px solid var(--mat-sys-outline);
+}
+
+.tertiary-accent {
+  background-color: var(--mat-sys-tertiary);
+  color: var(--mat-sys-on-tertiary);
+}
+
+.error-message {
+  background-color: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  border: 1px solid var(--mat-sys-error);
+}
+
+.surface-content {
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}

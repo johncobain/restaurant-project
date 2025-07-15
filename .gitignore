@@ -1,0 +1,14 @@
+node_modules/
+
+dist/
+build/
+tmp/
+out-tsc/
+.angular/
+.angular/cache/
+
+.env
+.env.*
+
+.docker/
+.vscode/
