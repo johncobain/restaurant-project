@@ -1,0 +1,78 @@
+services:
+  restaurant-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: restaurant-api
+    ports:
+      - "3000:3000"
+    environment:
+      DB_NAME: restaurant_api
+      DB_USER: postgres
+      DB_PASSWORD: 1994
+      DB_DIALECT: postgres
+      DB_HOST: postgres
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - restaurant-network
+    volumes:
+      - ./backend/src:/usr/app/src
+      - ./backend/logs:/usr/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  restaurant-web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: restaurant-web
+    ports:
+      - "4200:4200"
+    depends_on:
+      restaurant-api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - restaurant-network
+    volumes:
+      - ./frontend/src:/usr/app/src
+
+  # Database
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: restaurant_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1994
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d restaurant_api"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - restaurant-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  restaurant-network:
+    driver: bridge
