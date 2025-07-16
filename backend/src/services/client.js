@@ -125,7 +125,7 @@ async function listByMostSpent(limit) {
   const query = {
     attributes: {
       include: [
-        [sequelize.fn("SUM", sequelize.col("orders.dish.price")), "totalSpent"],
+        [sequelize.fn("SUM", sequelize.col("orders.price")), "totalSpent"],
       ],
     },
     include: [
