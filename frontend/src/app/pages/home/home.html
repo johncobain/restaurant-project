@@ -1,11 +1,41 @@
-<p>home works! (and Docker too)</p>
-<h1>Clients</h1>
-@for (client of clients; track $index) {
+@if (loading) {
+<app-loading
+  message="'Carregando base de dados...'"
+  [overlay]="true"
+></app-loading>
+} @else {
+<h1>Home Page</h1>
+<h2>Clients</h2>
+<hr />
+@for (client of clients; track client.id) {
 <div>
-  <hr />
   <p>id: {{ client.id }}</p>
   <p>name: {{ client.name }}</p>
   <p>cpf: {{ client.cpf }}</p>
   <p>birthDate: {{ client.birthDate }}</p>
 </div>
+<hr />
 }
+<h2>Dishes</h2>
+<hr />
+@for (dish of dishes; track dish.id) {
+<div>
+  <p>id: {{ dish.id }}</p>
+  <p>name: {{ dish.name }}</p>
+  <p>category: {{ dish.category }}</p>
+  <p>price: {{ dish.price }}</p>
+</div>
+<hr />
+}
+<h2>Orders</h2>
+<hr />
+@for (order of orders; track order.id) {
+<div>
+  <p>id: {{ order.id }}</p>
+  <p>client: {{ order.client?.name || "N/A" }}</p>
+  <p>dish: {{ order.dish?.name || "N/A" }}</p>
+  <p>attended: {{ order.attended }}</p>
+  <p>price: {{ order.price }}</p>
+</div>
+<hr />
+} }
