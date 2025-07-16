@@ -1,1 +1,11 @@
 <p>home works! (and Docker too)</p>
+<h1>Clients</h1>
+@for (client of clients; track $index) {
+<div>
+  <hr />
+  <p>id: {{ client.id }}</p>
+  <p>name: {{ client.name }}</p>
+  <p>cpf: {{ client.cpf }}</p>
+  <p>birthDate: {{ client.birthDate }}</p>
+</div>
+}
