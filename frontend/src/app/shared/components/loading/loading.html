@@ -1,1 +1,28 @@
-<p>loading works!</p>
+<div
+  class="loading-container"
+  [class.overlay]="overlay"
+  [class.loading-small]="size === 'small'"
+  [class.loading-medium]="size === 'medium'"
+  [class.loading-large]="size === 'large'"
+>
+  @switch (type) { @case ('spinner'){
+  <div class="spinner-container">
+    <mat-spinner [color]="color" [diameter]="getDiameter()"></mat-spinner>
+    <p class="loading-message">{{ message }}</p>
+  </div>
+  } @case ('bar'){
+  <div class="bar-container">
+    <p class="loading-message">{{ message }}</p>
+    <mat-progress-bar mode="indeterminate" color="color"></mat-progress-bar>
+  </div>
+  } @case ('dots'){
+  <div class="dots-container">
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <p class="loading-message">{{ message }}</p>
+  </div>
+  } }
+</div>
