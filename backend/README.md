@@ -261,6 +261,8 @@ Endpoints for managing orders.
 }
 ```
 
+**Note**: The `price` field is automatically captured from the selected dish and does not need to be provided in the request.
+
 **GET /orders/:id** : Retrieves a specific order by ID.
 
 **GET /orders/:id/details** : Retrieves an order including client and dish details.
