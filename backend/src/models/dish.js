@@ -1,27 +1,27 @@
 const database = require("../database/database.js");
 const Sequelize = require("sequelize");
 
-const Prato = database.define(
-  "prato",
+const Dish = database.define(
+  "dish",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    nome: {
+    name: {
       type: Sequelize.STRING(50),
       allowNull: false,
     },
-    descricao: {
+    description: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    preco: {
+    price: {
       type: Sequelize.DECIMAL(10, 2),
       allowNull: false,
     },
-    categoria: {
+    category: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -31,11 +31,11 @@ const Prato = database.define(
   }
 );
 
-Prato.associate = (models) => {
-  Prato.hasMany(models.Pedido, {
-    foreignKey: "pratoId",
-    as: "pedidos",
+Dish.associate = (models) => {
+  Dish.hasMany(models.Order, {
+    foreignKey: "dishId",
+    as: "orders",
   });
 };
 
-module.exports = Prato;
+module.exports = Dish;

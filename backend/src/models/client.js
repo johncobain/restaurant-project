@@ -1,19 +1,19 @@
 const database = require("../database/database.js");
 const Sequelize = require("sequelize");
 
-const Cliente = database.define(
-  "cliente",
+const Client = database.define(
+  "client",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    nome: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    data_nascimento: {
+    birthDate: {
       type: Sequelize.DATEONLY,
       allowNull: false,
     },
@@ -32,11 +32,11 @@ const Cliente = database.define(
   }
 );
 
-Cliente.associate = (models) => {
-  Cliente.hasMany(models.Pedido, {
-    foreignKey: "clienteId",
-    as: "pedidos",
+Client.associate = (models) => {
+  Client.hasMany(models.Order, {
+    foreignKey: "clientId",
+    as: "orders",
   });
 };
 
-module.exports = Cliente;
+module.exports = Client;

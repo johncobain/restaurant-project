@@ -4,7 +4,7 @@ function errorHandler(err, req, res, next) {
   console.error(err);
 
   const statusCode = err.statusCode || 500;
-  const message = err.message || "Ocorreu um erro interno no servidor";
+  const message = err.message || "An Internal Server Error Ocurred";
 
   res.status(statusCode).json({
     error: err.name || "InternalServerError",
@@ -49,99 +49,97 @@ function isValidCpf(cpf) {
   return true;
 }
 
-const validateClienteCreate = (req, res, next) => {
-  const { nome, data_nascimento, cpf } = req.body;
+const validateClientCreate = (req, res, next) => {
+  const { name, birthDate, cpf } = req.body;
 
-  if (!nome || typeof nome !== "string" || nome.trim() === "") {
+  if (!name || typeof name !== "string" || name.trim() === "") {
     throw new BadRequestError(
-      "Nome do cliente é obrigatório e deve ser uma string não vazia."
+      "Client name is required and must be a non-empty string."
     );
   }
 
-  if (!data_nascimento || !/^\d{4}-\d{2}-\d{2}$/.test(data_nascimento)) {
+  if (!birthDate || !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
     throw new BadRequestError(
-      "Data de nascimento é obrigatória e deve estar no formato YYYY-MM-DD."
+      "Birth date is required and must be in the format YYYY-MM-DD."
     );
   }
 
   if (!cpf || !isValidCpf(cpf)) {
-    throw new BadRequestError("CPF é obrigatório e deve ser válido.");
+    throw new BadRequestError("CPF is required and must be valid.");
   }
 
   next();
 };
 
-const validateClienteUpdate = (req, res, next) => {
-  const { nome, data_nascimento, cpf } = req.body;
+const validateClientUpdate = (req, res, next) => {
+  const { name, birthDate, cpf } = req.body;
 
-  if (nome && (typeof nome !== "string" || nome.trim() === "")) {
-    throw new BadRequestError("Nome do cliente deve ser uma string não vazia.");
+  if (name && (typeof name !== "string" || name.trim() === "")) {
+    throw new BadRequestError("Client name must be a non-empty string.");
   }
 
-  if (data_nascimento && !/^\d{4}-\d{2}-\d{2}$/.test(data_nascimento)) {
-    throw new BadRequestError(
-      "Data de nascimento deve estar no formato YYYY-MM-DD."
-    );
+  if (birthDate && !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+    throw new BadRequestError("Birth date must be in the format YYYY-MM-DD.");
   }
 
   if (cpf && !isValidCpf(cpf)) {
-    throw new BadRequestError("CPF deve ser válido.");
+    throw new BadRequestError("CPF must be valid.");
   }
 
   next();
 };
 
-const validatePratoCreate = (req, res, next) => {
-  const { nome, preco, categoria } = req.body;
+const validateDishCreate = (req, res, next) => {
+  const { name, price, category } = req.body;
 
-  if (!nome || typeof nome !== "string" || nome.trim() === "") {
+  if (!name || typeof name !== "string" || name.trim() === "") {
     throw new BadRequestError(
-      "Nome do prato é obrigatório e deve ser uma string não vazia."
+      "Dish name is required and must be a non-empty string."
     );
   }
 
-  if (!/^[a-zA-Z\s]{3,50}$/.test(nome)) {
+  if (!/^[a-zA-Z\s]{3,50}$/.test(name)) {
     throw new BadRequestError(
-      "Nome do prato deve conter apenas letras e espaços, com tamanho entre 3 e 50 caracteres."
+      "Dish name must contain only letters and spaces, and be between 3 and 50 characters long."
     );
   }
 
-  if (preco === undefined || isNaN(preco) || Number(preco) < 0) {
+  if (price === undefined || isNaN(price) || Number(price) < 0) {
     throw new BadRequestError(
-      "Preço do prato é obrigatório e deve ser um número positivo."
+      "Dish price is required and must be a positive number."
     );
   }
 
-  if (!categoria || typeof categoria !== "string" || categoria.trim() === "") {
+  if (!category || typeof category !== "string" || category.trim() === "") {
     throw new BadRequestError(
-      "Categoria do prato é obrigatória e deve ser uma string não vazia."
+      "Dish category is required and must be a non-empty string."
     );
   }
 
   next();
 };
 
-const validatePratoUpdate = (req, res, next) => {
-  const { nome, preco, categoria } = req.body;
+const validateDishUpdate = (req, res, next) => {
+  const { name, price, category } = req.body;
 
-  if (nome) {
-    if (!/^[a-zA-Z\s]{3,50}$/.test(nome)) {
+  if (name) {
+    if (!/^[a-zA-Z\s]{3,50}$/.test(name)) {
       throw new BadRequestError(
-        "Nome do prato deve conter apenas letras e espaços, com tamanho entre 3 e 50 caracteres."
+        "Dish name must contain only letters and spaces, and be between 3 and 50 characters long."
       );
     }
   }
 
-  if (preco) {
-    if (isNaN(preco) || Number(preco) < 0) {
-      throw new BadRequestError("Preço do prato deve ser um número positivo.");
+  if (price) {
+    if (isNaN(price) || Number(price) < 0) {
+      throw new BadRequestError("Dish price msust be a positive number.");
     }
   }
 
-  if (categoria) {
-    if (!/^[a-zA-Z\s]{3,50}$/.test(categoria)) {
+  if (category) {
+    if (!/^[a-zA-Z\s]{3,50}$/.test(category)) {
       throw new BadRequestError(
-        "Categoria do prato deve conter apenas letras e espaços, com tamanho entre 3 e 50 caracteres."
+        "Dish category must contain only letters and spaces, and be between 3 and 50 characters long."
       );
     }
   }
@@ -151,8 +149,8 @@ const validatePratoUpdate = (req, res, next) => {
 
 module.exports = {
   errorHandler,
-  validateClienteCreate,
-  validateClienteUpdate,
-  validatePratoCreate,
-  validatePratoUpdate,
+  validateClientCreate,
+  validateClientUpdate,
+  validateDishCreate,
+  validateDishUpdate,
 };

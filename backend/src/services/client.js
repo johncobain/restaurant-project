@@ -4,113 +4,113 @@ const {
   ConflictError,
 } = require("../errors/AppError");
 const sequelize = require("../database/database");
-const Cliente = require("../models/cliente");
-const Pedido = require("../models/pedido");
-const Prato = require("../models/prato");
+const Client = require("../models/client");
+const Order = require("../models/order");
+const Dish = require("../models/dish");
 
 async function list(query = {}) {
-  return await Cliente.findAll({ where: query });
+  return await Client.findAll({ where: query });
 }
 
 async function get(id) {
-  const cliente = await Cliente.findByPk(id);
-  if (!cliente) {
+  const client = await Client.findByPk(id);
+  if (!client) {
     throw new NotFoundError("Cliente não encontrado");
   }
-  return cliente;
+  return client;
 }
 
 async function getDetails(id) {
-  const cliente = await Cliente.findByPk(id, {
+  const client = await Client.findByPk(id, {
     include: [
       {
-        association: "pedidos",
+        association: "orders",
       },
     ],
   });
-  if (!cliente) {
+  if (!client) {
     throw new NotFoundError("Cliente não encontrado");
   }
-  return cliente;
+  return client;
 }
 
-async function create(clienteData) {
-  if (!clienteData.nome || !clienteData.data_nascimento || !clienteData.cpf) {
+async function create(clientData) {
+  if (!clientData.nome || !clientData.data_nascimento || !clientData.cpf) {
     throw new BadRequestError("Dados do cliente incompletos"); // move to middleware
   }
-  const existingCliente = await Cliente.findOne({
-    where: { cpf: clienteData.cpf },
+  const existingClient = await Client.findOne({
+    where: { cpf: clientData.cpf },
   });
-  if (existingCliente) {
-    if (existingCliente.active) {
+  if (existingClient) {
+    if (existingClient.active) {
       throw new ConflictError("Cliente com este CPF já existe e está ativo.");
     }
     throw new ConflictError(
       "Cliente com CPF já existe, mas está inativo. Ative-o para reutilizar (use o método POST em /clientes/active/:id para ativar)."
     );
   }
-  const data = { ...clienteData, active: true };
-  const cliente = await Cliente.create(data);
-  return cliente;
+  const data = { ...clientData, active: true };
+  const client = await Client.create(data);
+  return client;
 }
 
-async function update(id, clienteData) {
-  const cliente = await Cliente.findByPk(id);
-  if (!cliente || !cliente.active) {
+async function update(id, clientData) {
+  const client = await Client.findByPk(id);
+  if (!client || !client.active) {
     throw new NotFoundError("Cliente não encontrado ou inativo");
   }
-  await cliente.update(clienteData);
-  return cliente;
+  await client.update(clientData);
+  return client;
 }
 
 async function activate(id) {
-  const cliente = await Cliente.findByPk(id);
-  if (!cliente) {
+  const client = await Client.findByPk(id);
+  if (!client) {
     throw new NotFoundError("Cliente não encontrado");
   }
-  if (cliente.active) {
+  if (client.active) {
     throw new ConflictError("Cliente já está ativo");
   }
-  cliente.active = true;
-  await cliente.save();
-  return cliente;
+  client.active = true;
+  await client.save();
+  return client;
 }
 
 async function removeActive(id) {
-  const cliente = await Cliente.findByPk(id);
-  if (!cliente || !cliente.active) {
+  const client = await Client.findByPk(id);
+  if (!client || !client.active) {
     throw new NotFoundError("Cliente não encontrado ou inativo");
   }
-  cliente.active = false;
-  await cliente.save();
-  return cliente;
+  client.active = false;
+  await client.save();
+  return client;
 }
 
 async function remove(id) {
-  const cliente = await Cliente.findByPk(id);
-  if (!cliente) {
+  const client = await Client.findByPk(id);
+  if (!client) {
     throw new NotFoundError("Cliente não encontrado");
   }
-  await cliente.destroy();
-  return cliente;
+  await client.destroy();
+  return client;
 }
 
 async function listByOrdersQuantity(limit) {
   const query = {
     attributes: {
       include: [
-        [sequelize.fn("COUNT", sequelize.col("pedidos.id")), "totalPedidos"],
+        [sequelize.fn("COUNT", sequelize.col("orders.id")), "totalOrders"],
       ],
     },
     include: [
       {
-        model: Pedido,
-        as: "pedidos",
+        model: Order,
+        as: "orders",
         attributes: [],
       },
     ],
-    group: ["cliente.id"],
-    order: [[sequelize.fn("COUNT", sequelize.col("pedidos.id")), "DESC"]],
+    group: ["client.id"],
+    order: [[sequelize.fn("COUNT", sequelize.col("orders.id")), "DESC"]],
     subQuery: false,
   };
   if (limit) {
@@ -123,34 +123,31 @@ async function listByMostSpent(limit) {
   const query = {
     attributes: {
       include: [
-        [
-          sequelize.fn("SUM", sequelize.col("pedidos.prato.preco")),
-          "totalGasto",
-        ],
+        [sequelize.fn("SUM", sequelize.col("orders.dish.price")), "totalSpent"],
       ],
     },
     include: [
       {
-        model: Pedido,
-        as: "pedidos",
+        model: Order,
+        as: "orders",
         attributes: [],
         include: [
           {
-            model: Prato,
-            as: "prato",
+            model: Dish,
+            as: "dishes",
             attributes: [],
           },
         ],
       },
     ],
-    group: ["cliente.id"],
-    order: [[sequelize.literal('"totalGasto"'), "DESC NULLS LAST"]],
+    group: ["client.id"],
+    order: [[sequelize.literal('"totalSpent"'), "DESC NULLS LAST"]],
     subQuery: false,
   };
   if (limit) {
     query.limit = limit;
   }
-  return await Cliente.findAll(query);
+  return await Client.findAll(query);
 }
 
 module.exports = {

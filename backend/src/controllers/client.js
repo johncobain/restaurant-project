@@ -1,4 +1,4 @@
-const service = require("../services/cliente");
+const service = require("../services/client");
 
 const catchAsync = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
@@ -9,65 +9,65 @@ const list = catchAsync(async (req, res) => {
   if (req.query.active !== undefined) {
     query.active = req.query.active === "true";
   }
-  const clientes = await service.list(query);
-  return res.status(200).json(clientes);
+  const clients = await service.list(query);
+  return res.status(200).json(clients);
 });
 
 const get = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const cliente = await service.get(id);
-  return res.status(200).json(cliente);
+  const client = await service.get(id);
+  return res.status(200).json(client);
 });
 
 const getDetails = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const cliente = await service.getDetails(id);
-  return res.status(200).json(cliente);
+  const client = await service.getDetails(id);
+  return res.status(200).json(client);
 });
 
 const create = catchAsync(async (req, res) => {
-  const clienteData = req.body;
-  const cliente = await service.create(clienteData);
+  const clientData = req.body;
+  const client = await service.create(clientData);
   return res.status(201).json({
-    message: "Cliente criado com sucesso",
-    cliente: cliente,
+    message: "Client created successfully",
+    client: client,
   });
 });
 
 const update = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const clienteData = req.body;
-  const cliente = await service.update(id, clienteData);
+  const clientData = req.body;
+  const client = await service.update(id, clientData);
   return res.status(200).json({
-    message: "Cliente editado com sucesso!",
-    cliente: cliente,
+    message: "Client updated successfully!",
+    client: client,
   });
 });
 
 const activate = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const cliente = await service.activate(id);
+  const client = await service.activate(id);
   return res.status(200).json({
-    message: "Cliente ativado com sucesso",
-    cliente: cliente,
+    message: "Client activated successfully",
+    client: client,
   });
 });
 
 const removeActive = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const cliente = await service.removeActive(id);
+  const client = await service.removeActive(id);
   return res.status(200).json({
-    message: "Cliente desativado com sucesso",
-    cliente: cliente,
+    message: "Client deactivated successfully",
+    client: client,
   });
 });
 
 const remove = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const cliente = await service.remove(id);
+  const client = await service.remove(id);
   return res.status(200).json({
-    message: "Cliente removido com sucesso",
-    cliente: cliente,
+    message: "Client removed successfully",
+    client: client,
   });
 });
 
@@ -75,17 +75,17 @@ const listByOrdersQuantity = catchAsync(async (req, res) => {
   const { quantity } = req.query;
 
   const limit = parseInt(quantity, 5);
-  const clientes = await service.listByOrdersQuantity(
+  const clients = await service.listByOrdersQuantity(
     !isNaN(limit) ? limit : null
   );
-  return res.status(200).json(clientes);
+  return res.status(200).json(clients);
 });
 
 const listByMostSpent = catchAsync(async (req, res) => {
   const { quantity } = req.query;
   const limit = parseInt(quantity, 5);
-  const clientes = await service.listByMostSpent(!isNaN(limit) ? limit : null);
-  return res.status(200).json(clientes);
+  const clients = await service.listByMostSpent(!isNaN(limit) ? limit : null);
+  return res.status(200).json(clients);
 });
 
 module.exports = {

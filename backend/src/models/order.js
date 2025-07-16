@@ -1,36 +1,36 @@
 const database = require("../database/database.js");
 const Sequelize = require("sequelize");
 
-const Pedido = database.define(
-  "pedido",
+const Order = database.define(
+  "order",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    clienteId: {
+    clientId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: "clientes",
+        model: "clients",
         key: "id",
       },
     },
-    pratoId: {
+    dishId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: "pratos",
+        model: "dishes",
         key: "id",
       },
     },
-    data_pedido: {
+    orderDate: {
       type: Sequelize.DATE,
       allowNull: false,
       defaultValue: Sequelize.NOW,
     },
-    atendido: {
+    attended: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },
@@ -40,9 +40,9 @@ const Pedido = database.define(
   }
 );
 
-Pedido.associate = function (models) {
-  Pedido.belongsTo(models.Cliente, { foreignKey: "clienteId", as: "cliente" });
-  Pedido.belongsTo(models.Prato, { foreignKey: "pratoId", as: "prato" });
+Order.associate = function (models) {
+  Order.belongsTo(models.Client, { foreignKey: "clientId", as: "client" });
+  Order.belongsTo(models.Dish, { foreignKey: "dishId", as: "dish" });
 };
 
-module.exports = Pedido;
+module.exports = Order;

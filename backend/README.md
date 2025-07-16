@@ -1,51 +1,51 @@
 # Restaurant API
 
-Esta é uma API RESTful desenvolvida em Node.js para gerenciar clientes, pratos e pedidos de um restaurante. A API utiliza Express.js para o roteamento, Sequelize como ORM para interagir com um banco de dados PostgreSQL e implementa diversas regras de negócio e relatórios.
+This is a RESTful API developed in Node.js to manage clients, dishes, and orders for a restaurant. The API uses Express.js for routing, Sequelize as ORM to interact with a PostgreSQL database, and implements various business rules and reports.
 
-## Índice
+## Table of Contents
 
-1. [Tecnologias Utilizadas](#tecnologias-utilizadas)
-2. [Pré-requisitos](#pré-requisitos)
-3. [Estrutura do Projeto](#estrutura-do-projeto)
-4. [Documentação da API (Endpoints)](#documentação-da-api-endpoints)
-   - [Clientes](#clientes)
-   - [Pratos](#pratos)
-   - [Pedidos](#pedidos)
-5. [Regras de Negócio](#regras-de-negócio)
+1. [Technologies Used](#technologies-used)
+2. [Prerequisites](#prerequisites)
+3. [Project Structure](#project-structure)
+4. [API Documentation (Endpoints)](#api-documentation-endpoints)
+   - [Clients](#clients)
+   - [Dishes](#dishes)
+   - [Orders](#orders)
+5. [Business Rules](#business-rules)
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - Backend: Node.js
 - Framework: Express.js
 - ORM: Sequelize
-- Banco de Dados: PostgreSQL
-- Variáveis de Ambiente: Dotenv
-- Containerização: Docker & Docker Compose
+- Database: PostgreSQL
+- Environment Variables: Dotenv
+- Containerization: Docker & Docker Compose
 
-## Pré-requisitos
+## Prerequisites
 
-### Para execução local
+### For local execution
 
 - Node.js
-- NPM ou Yarn
-- Uma instância do PostgreSQL em execução
+- NPM or Yarn
+- A running PostgreSQL instance
 
-### Para execução com Docker
+### For Docker execution
 
 - Docker
 - Docker Compose
 
-### Portas e Acessos
+### Ports and Access
 
 - **API**: `http://localhost:3000`
-- **PostgreSQL**: localhost:5434 (externamente)
-- **Banco de dados**: restaurant_api
-- **Usuário**: postgres
-- **Senha**: 1994
+- **PostgreSQL**: localhost:5434 (external)
+- **Database**: restaurant_api
+- **User**: postgres
+- **Password**: 1994
 
-### Variáveis de Ambiente
+### Environment Variables
 
-As variáveis estão configuradas no arquivo `.env`:
+Variables are configured in the `.env` file:
 
 ```env
 PORT=3000
@@ -53,44 +53,58 @@ DB_NAME=restaurant_api
 DB_USER=postgres
 DB_PASSWORD=1994
 DB_DIALECT=postgres
-DB_HOST=postgres  # Nome do serviço Docker
+DB_HOST=postgres  # Docker service name
 ```
 
-## Estrutura do Projeto
+## Project Structure
 
-O projeto segue uma arquitetura em camadas para separar as responsabilidades:
+The project follows a layered architecture to separate responsibilities:
 
 ```plaintext
 /src
-|-- /controllers/   # Controla o fluxo de requisição e resposta.
-|-- /database/      # Configuração da conexão com o banco de dados.
-|-- /errors/        # Classes de erro customizadas.
-|-- /middlewares/   # Funções de middleware (validação, tratamento de erros).
-|-- /models/        # Definições dos modelos e associações do Sequelize.
-|-- /routes/        # Definição das rotas da API.
-|-- /services/      # Contém a lógica de negócio da aplicação.
-`-- app.js          # Ponto de entrada principal da aplicação Express.
+|-- /controllers/   # Controls request and response flow.
+|-- /database/      # Database connection configuration.
+|-- /errors/        # Custom error classes.
+|-- /middlewares/   # Middleware functions (validation, error handling).
+|-- /models/        # Sequelize model definitions and associations.
+|-- /routes/        # API route definitions.
+|-- /services/      # Contains application business logic.
+`-- app.js          # Main Express application entry point.
 ```
 
-## Documentação da API (Endpoints)
+## API Documentation (Endpoints)
 
-### Clientes
+### Health Check
 
-Endpoints para gerenciar os clientes.
+GET /health : Returns API health status.
 
-GET /clientes: Lista todos os clientes. Suporta filtragem por status.
+- Response (200 OK):
+
+```json
+{
+  "status": "OK",
+  "timestamp": "2025-01-15T12:00:00.000Z",
+  "uptime": 3600
+}
+```
+
+### Clients
+
+Endpoints for managing clients.
+
+**GET /clients** : Lists all clients. Supports filtering by status.
 
 - Query Params:
-  - active (boolean): Filtra clientes por status (true ou false).
-- Exemplo de Requisição: GET /clientes?active=true
-- Resposta de Sucesso (200 OK):
+  - active (boolean): Filters clients by status (true or false).
+- Example Request: GET /clients?active=true
+- Success Response (200 OK):
 
-```bash
+```json
 [
   {
     "id": 1,
-    "nome": "John Doe",
-    "data_nascimento": "1990-01-15",
+    "name": "John Doe",
+    "birthDate": "1990-01-15",
     "cpf": "39217029092",
     "active": true,
     "createdAt": "2025-06-20T10:00:00.000Z",
@@ -99,183 +113,171 @@ GET /clientes: Lista todos os clientes. Suporta filtragem por status.
 ]
 ```
 
-POST /clientes: Cria um novo cliente.
+**POST /clients** : Creates a new client.
 
-- Corpo da Requisição:
+- Request Body:
 
-```bash
+```json
 {
-  "nome": "Jane Doe",
-  "data_nascimento": "1992-05-20",
+  "name": "Jane Doe",
+  "birthDate": "1992-05-20",
   "cpf": "79235551846"
 }
 ```
 
-- Resposta de Sucesso (201 Created):
+- Success Response (201 Created):
 
-```bash
+```json
 {
-  "message": "Cliente criado com sucesso",
-  "cliente": { ...dados do cliente... }
+  "message": "Client created successfully",
+  "client": { "...client data..." }
 }
 ```
 
-GET /clientes/most-orders: Lista os clientes que mais fizeram pedidos, em ordem decrescente(default=5).
+**GET /clients/most-orders** : Lists clients with most orders, in descending order (default=5).
 
 - Query Params:
+  - quantity (number): Limits the number of clients returned.
+- Example Request: GET /clients/most-orders?quantity=7
+- Success Response (200 OK):
 
-  - quantity (number): Limita a quantidade de clientes retornados.
-
-- Exemplo de Requisição: GET /clientes/most-orders?quantity=7
-
-- Resposta de Sucesso (200 OK):
-
-```bash
+```json
 [
   {
     "id": 1,
-    "nome": "John Doe",
-    ...
-    "totalPedidos": "15"
+    "name": "John Doe",
+    "totalOrders": "15"
   },
   {
     "id": 2,
-    "nome": "Jane Doe",
-    ...
-    "totalPedidos": "12"
-  },
-  ...
+    "name": "Jane Doe",
+    "totalOrders": "12"
+  }
 ]
 ```
 
-GET /clientes/most-spent: Lista os clientes que mais gastaram, em ordem decrescente(default=5).
+**GET /clients/most-spent** : Lists clients who spent the most, in descending order (default=5).
 
 - Query Params:
+  - quantity (number): Limits the number of clients returned.
+- Example Request: GET /clients/most-spent?quantity=7
+- Success Response (200 OK):
 
-  - quantity (number): Limita a quantidade de clientes retornados.
-
-- Exemplo de Requisição: GET /clientes/most-spent?quantity=7
-
-- Resposta de Sucesso (200 OK):
-
-```bash
+```json
 [
   {
     "id": 1,
-    "nome": "John Doe",
-    ...
-    "totalGasto": "150.00"
+    "name": "John Doe",
+    "totalSpent": "150.00"
   },
   {
     "id": 2,
-    "nome": "Jane Doe",
-    ...
-    "totalGasto": "120.00"
-  },
-  ...
+    "name": "Jane Doe",
+    "totalSpent": "120.00"
+  }
 ]
 ```
 
-GET /clientes/:id : Busca um cliente específico pelo ID.
+**GET /clients/:id** : Retrieves a specific client by ID.
 
-GET /clientes/:id/details : Busca um cliente e todos os seus pedidos associados.
+**GET /clients/:id/details** : Retrieves a client and all associated orders.
 
-PUT /clientes/:id : Atualiza os dados de um cliente.
+**PUT /clients/:id** : Updates client data.
 
-- Corpo da Requisição (parcial):
+- Request Body (partial):
 
-```bash
+```json
 {
-  "nome": "Johnathan Doe",
+  "name": "Johnathan Doe"
 }
 ```
 
-DELETE /clientes/:id : Remove permanentemente um cliente do banco de dados.
+**DELETE /clients/:id** : Permanently removes a client from the database.
 
-POST /clientes/active/:id : Ativa um cliente que estava inativo.
+**POST /clients/active/:id** : Activates an inactive client.
 
-DELETE /clientes/active/:id : Desativa um cliente (soft delete), mantendo o registro no banco.
+**DELETE /clients/active/:id** : Deactivates a client (soft delete), keeping the record in the database.
 
-### Pratos
+### Dishes
 
-Endpoints para gerenciar os pratos do cardápio.
+Endpoints for managing menu dishes.
 
-GET /pratos : Lista todos os pratos. Suporta filtragem por categoria.
+**GET /dishes** : Lists all dishes. Supports filtering by category.
 
 - Query Params:
+  - category (string): Filters dishes by category.
+- Example Request: GET /dishes?category=Dessert
 
-  - categoria (string): Filtra pratos por categoria.
+**POST /dishes** : Creates a new dish.
 
-- Exemplo de Requisição: GET /pratos?categoria=Sobremesa
+- Request Body:
 
-POST /pratos : Cria um novo prato.
-
-- Corpo da Requisição:
-
-```bash
+```json
 {
-  "nome": "Bolo de Chocolate",
-  "descricao": "Bolo de chocolate com cobertura de ganache",
-  "preco": 15.00,
-  "categoria": "Sobremesa"
+  "name": "Chocolate Cake",
+  "description": "Chocolate cake with ganache topping",
+  "price": 15.0,
+  "category": "Dessert"
 }
 ```
 
-GET /pratos/popularity : Lista os pratos ordenados pela quantidade de vezes que foram pedidos.
+**GET /dishes/popularity** : Lists dishes ordered by number of times they were ordered.
 
-GET /pratos/:id : Busca um prato específico pelo ID.
+**GET /dishes/:id** : Retrieves a specific dish by ID.
 
-PUT /pratos/:id : Atualiza os dados de um prato.
+**GET /dishes/:id/details** : Retrieves a dish with additional details.
 
-- Corpo da Requisição (parcial):
+**PUT /dishes/:id** : Updates dish data.
 
-```bash
+- Request Body (partial):
+
+```json
 {
-  "nome": "Bolo de Cenoura",
-  "descricao": "Bolo de cenoura com cobertura de chocolate",
+  "name": "Carrot Cake",
+  "description": "Carrot cake with chocolate topping"
 }
 ```
 
-DELETE /pratos/:id : Remove um prato do banco de dados.
+**DELETE /dishes/:id** : Removes a dish from the database.
 
-### Pedidos
+### Orders
 
-Endpoints para gerenciar os pedidos.
+Endpoints for managing orders.
 
-GET /pedidos : Lista todos os pedidos. Suporta filtragem por status de atendimento.
+**GET /orders** : Lists all orders. Supports filtering by attendance status.
 
 - Query Params:
+  - attended (boolean): Filters orders by status (true or false).
+- Example Request: GET /orders?attended=false
 
-  - atendido (boolean): Filtra pedidos por status (true ou false).
+**POST /orders** : Creates a new order.
 
-- Exemplo de Requisição: GET /pedidos?atendido=false
+- Request Body:
 
-POST /pedidos : Cria um novo pedido.
-
-- Corpo da Requisição:
-
-```bash
+```json
 {
-  "clienteId": 1,
-  "pratoId": 2,
+  "clientId": 1,
+  "dishId": 2
 }
 ```
 
-GET /pedidos/:id/details : Busca um pedido e inclui os detalhes do cliente e do prato associados.
+**GET /orders/:id** : Retrieves a specific order by ID.
 
-PUT /pedidos/:id : Atualiza um pedido (ex: para trocar o prato ou cliente).
+**GET /orders/:id/details** : Retrieves an order including client and dish details.
 
-DELETE /pedidos/:id : Remove um pedido do banco de dados.
+**PUT /orders/:id** : Updates an order (e.g., to change dish or client).
 
-POST /pedidos/atendido/:id : Marca um pedido como "atendido".
+**DELETE /orders/:id** : Removes an order from the database.
 
-DELETE /pedidos/atendido/:id : Marca um pedido como "não atendido".
+**POST /orders/attended/:id** : Marks an order as "attended".
 
-## Regras de Negócio
+**DELETE /orders/attended/:id** : Marks an order as "not attended".
 
-A API implementa as seguintes validações:
+## Business Rules
 
-- CPF do Cliente: A validação é feita usando o algoritmo padrão de CPF, garantindo que apenas CPFs matematicamente válidos sejam aceitos.
-- Nome do Prato: Deve conter apenas letras e espaços, com um comprimento entre 3 e 50 caracteres.
-- Preço do Prato: Deve ser um número positivo.
-- Cliente Ativo: Um pedido só pode ser criado para um cliente que esteja com o status active: true.
+The API implements the following validations:
+
+- **Client CPF**: Validation is performed using the standard CPF algorithm, ensuring only mathematically valid CPFs are accepted.
+- **Dish Name**: Must contain only letters and spaces, with a length between 3 and 50 characters.
+- **Dish Price**: Must be a positive number.
+- **Active Client**: An order can only be created for a client with active: true status.

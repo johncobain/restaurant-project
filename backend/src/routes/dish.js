@@ -1,17 +1,15 @@
 const express = require("express");
-const controller = require("../controllers/pedido");
+const controller = require("../controllers/dish");
 const middleware = require("../middlewares/middlewares");
 
 const router = express.Router();
 
 router.get("/", controller.list);
-router.post("/", /*middleware.validatePedido,*/ controller.create);
+router.post("/", middleware.validateDishCreate, controller.create);
+router.get("/popularity", controller.listByOrdersQuantity);
 router.get("/:id", controller.get);
 router.get("/:id/details", controller.getDetails);
-router.put("/:id", /*middleware.validatePedido,*/ controller.update);
+router.put("/:id", middleware.validateDishUpdate, controller.update);
 router.delete("/:id", controller.remove);
-
-router.post("/atendido/:id", controller.atendido);
-router.delete("/atendido/:id", controller.removeAtendido);
 
 module.exports = router;

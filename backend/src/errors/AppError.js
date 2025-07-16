@@ -8,19 +8,19 @@ class AppError extends Error {
 }
 
 class NotFoundError extends AppError {
-  constructor(message = "Recurso não encontrado") {
+  constructor(message = "Resource not found") {
     super(message, 404);
   }
 }
 
 class BadRequestError extends AppError {
-  constructor(message = "Requisição inválida") {
+  constructor(message = "Invalid request") {
     super(message, 400);
   }
 }
 
 class ConflictError extends AppError {
-  constructor(message = "Conflito de recursos") {
+  constructor(message = "Resource conflict") {
     super(message, 409);
   }
 }

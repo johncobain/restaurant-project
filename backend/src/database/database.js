@@ -12,7 +12,7 @@ const database = new Sequelize(
 
 module.exports = database;
 
-require("../models/prato");
-require("../models/cliente");
-require("../models/pedido");
+require("../models/dish");
+require("../models/client");
+require("../models/order");
 database.sync();

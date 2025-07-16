@@ -5,23 +5,23 @@ const { errorHandler } = require("./middlewares/middlewares.js");
 const express = require("express");
 const cors = require("cors");
 
-const Cliente = require("./models/cliente");
-const Prato = require("./models/prato");
-const Pedido = require("./models/pedido");
+const Client = require("./models/client.js");
+const Dish = require("./models/dish.js");
+const Order = require("./models/order");
 
 const models = {
-  Cliente,
-  Prato,
-  Pedido,
+  Client,
+  Dish,
+  Order,
 };
 
 Object.values(models)
   .filter((model) => typeof model.associate === "function")
   .forEach((model) => model.associate(models));
 
-const clienteRouter = require("./routes/cliente");
-const pratoRouter = require("./routes/prato");
-const pedidoRouter = require("./routes/pedido");
+const clientRouter = require("./routes/client");
+const dishRouter = require("./routes/dish");
+const orderRouter = require("./routes/order");
 
 const app = express();
 
@@ -37,15 +37,15 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.use("/clientes", clienteRouter);
-app.use("/pratos", pratoRouter);
-app.use("/pedidos", pedidoRouter);
+app.use("/clients", clientRouter);
+app.use("/dishes", dishRouter);
+app.use("/orders", orderRouter);
 
 app.use(errorHandler);
 
 app.listen(
   process.env.PORT,
-  console.log(`Servidor escutando na porta ${process.env.PORT}`)
+  console.log(`Server listening on port ${process.env.PORT}`)
 );
 
 module.exports = app;
