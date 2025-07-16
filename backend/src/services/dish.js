@@ -10,7 +10,7 @@ async function list(query = {}) {
 async function get(id) {
   const dish = await Dish.findByPk(id);
   if (!dish) {
-    throw new NotFoundError("Prato não encontrado");
+    throw new NotFoundError("Dish not found");
   }
   return dish;
 }
@@ -24,7 +24,7 @@ async function getDetails(id) {
     ],
   });
   if (!dish) {
-    throw new NotFoundError("Prato não encontrado");
+    throw new NotFoundError("Dish not found");
   }
   return dish;
 }
@@ -36,7 +36,7 @@ async function create(dishData) {
 async function update(id, dishData) {
   const dish = await get(id);
   if (!dish) {
-    throw new NotFoundError("Prato não encontrado");
+    throw new NotFoundError("Dish not found");
   }
   return await dish.update(dishData);
 }
@@ -44,7 +44,7 @@ async function update(id, dishData) {
 async function remove(id) {
   const dish = await get(id);
   if (!dish) {
-    throw new NotFoundError("Prato não encontrado");
+    throw new NotFoundError("Dish not found");
   }
   await dish.destroy();
 }

@@ -25,6 +25,10 @@ const Order = database.define(
         key: "id",
       },
     },
+    price: {
+      type: Sequelize.DECIMAL(10, 2),
+      allowNull: false,
+    },
     orderDate: {
       type: Sequelize.DATE,
       allowNull: false,

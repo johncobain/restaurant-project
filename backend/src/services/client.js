@@ -15,7 +15,7 @@ async function list(query = {}) {
 async function get(id) {
   const client = await Client.findByPk(id);
   if (!client) {
-    throw new NotFoundError("Cliente não encontrado");
+    throw new NotFoundError("Client not found");
   }
   return client;
 }
@@ -29,24 +29,26 @@ async function getDetails(id) {
     ],
   });
   if (!client) {
-    throw new NotFoundError("Cliente não encontrado");
+    throw new NotFoundError("Client not found");
   }
   return client;
 }
 
 async function create(clientData) {
-  if (!clientData.nome || !clientData.data_nascimento || !clientData.cpf) {
-    throw new BadRequestError("Dados do cliente incompletos"); // move to middleware
+  if (!clientData.name || !clientData.birthDate || !clientData.cpf) {
+    throw new BadRequestError("Client Data is required"); // move to middleware
   }
   const existingClient = await Client.findOne({
     where: { cpf: clientData.cpf },
   });
   if (existingClient) {
     if (existingClient.active) {
-      throw new ConflictError("Cliente com este CPF já existe e está ativo.");
+      throw new ConflictError(
+        "Client with this CPF already exists and is active."
+      );
     }
     throw new ConflictError(
-      "Cliente com CPF já existe, mas está inativo. Ative-o para reutilizar (use o método POST em /clientes/active/:id para ativar)."
+      "Client with CPF already exists, but is inactive. Activate it to reuse (use the POST method on /clientes/active/:id to activate)."
     );
   }
   const data = { ...clientData, active: true };
@@ -57,7 +59,7 @@ async function create(clientData) {
 async function update(id, clientData) {
   const client = await Client.findByPk(id);
   if (!client || !client.active) {
-    throw new NotFoundError("Cliente não encontrado ou inativo");
+    throw new NotFoundError("Client not found or inactive");
   }
   await client.update(clientData);
   return client;
@@ -66,10 +68,10 @@ async function update(id, clientData) {
 async function activate(id) {
   const client = await Client.findByPk(id);
   if (!client) {
-    throw new NotFoundError("Cliente não encontrado");
+    throw new NotFoundError("Client not found");
   }
   if (client.active) {
-    throw new ConflictError("Cliente já está ativo");
+    throw new ConflictError("Client is already active");
   }
   client.active = true;
   await client.save();
@@ -79,7 +81,7 @@ async function activate(id) {
 async function removeActive(id) {
   const client = await Client.findByPk(id);
   if (!client || !client.active) {
-    throw new NotFoundError("Cliente não encontrado ou inativo");
+    throw new NotFoundError("Client not found or inactive");
   }
   client.active = false;
   await client.save();
@@ -89,7 +91,7 @@ async function removeActive(id) {
 async function remove(id) {
   const client = await Client.findByPk(id);
   if (!client) {
-    throw new NotFoundError("Cliente não encontrado");
+    throw new NotFoundError("Client not found");
   }
   await client.destroy();
   return client;
