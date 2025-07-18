@@ -1,41 +1,191 @@
 @if (loading) {
 <app-loading
-  message="'Carregando base de dados...'"
+  message="'Carregando dados do restaurante...'"
   [overlay]="true"
 ></app-loading>
 } @else {
-<h1>Home Page</h1>
-<h2>Clients</h2>
-<hr />
-@for (client of clients; track client.id) {
-<div>
-  <p>id: {{ client.id }}</p>
-  <p>name: {{ client.name }}</p>
-  <p>cpf: {{ client.cpf }}</p>
-  <p>birthDate: {{ client.birthDate }}</p>
+<div class="home-container">
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-section">
+        <mat-icon class="logo-icon">restaurant</mat-icon>
+        <h1>Restaurant Manager</h1>
+      </div>
+      <nav class="nav-links">
+        <button mat-button routerLink="/clients" class="nav-btn">
+          <mat-icon>people</mat-icon>
+          Clientes
+        </button>
+        <button mat-button routerLink="/dishes" class="nav-btn">
+          <mat-icon>restaurant_menu</mat-icon>
+          Cardápio
+        </button>
+        <button mat-button routerLink="/orders" class="nav-btn">
+          <mat-icon>shopping_cart</mat-icon>
+          Pedidos
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="dashboard-stats">
+    <div class="stats-grid">
+      <mat-card class="stat-card clients-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>people</mat-icon>
+            Clientes
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-number">{{ clients.length }}</div>
+          <div class="stat-label">Total de Clientes Cadastrados</div>
+          <div class="stat-detail">Ativos: {{ getActiveClients() }}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" routerLink="/clients">
+            <mat-icon>visibility</mat-icon>
+            Ver Todos
+          </button>
+          <button mat-stroked-button (click)="openClientForm()">
+            <mat-icon>add</mat-icon>
+            Novo
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="stat-card dishes-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>restaurant_menu</mat-icon>
+            Pratos
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-number">{{ dishes.length }}</div>
+          <div class="stat-label">No Cardápio</div>
+          <div class="stat-detail">Categorias: {{ getUniqueCategories() }}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="accent" routerLink="/dishes">
+            <mat-icon>visibility</mat-icon>
+            Ver Cardápio
+          </button>
+          <button mat-stroked-button (click)="openDishForm()">
+            <mat-icon>add</mat-icon>
+            Novo Prato
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-card class="stat-card orders-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>receipt</mat-icon>
+            Pedidos
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-number">{{ orders.length }}</div>
+          <div class="stat-label">Total Hoje</div>
+          <div class="stat-detail">Pendentes: {{ getPendingOrders() }}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="warn" routerLink="/orders">
+            <mat-icon>visibility</mat-icon>
+            Ver Pedidos
+          </button>
+          <button mat-stroked-button (click)="openOrderForm()">
+            <mat-icon>add</mat-icon>
+            Novo Pedido
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+
+  <section class="quick-actions">
+    <h2>Ações Rápidas</h2>
+    <div class="actions-grid">
+      <button mat-fab extended color="primary" (click)="openClientForm()">
+        <mat-icon>person_add</mat-icon>
+        Cadastrar Cliente
+      </button>
+      <button mat-fab extended color="accent" (click)="openDishForm()">
+        <mat-icon>add_circle</mat-icon>
+        Adicionar Prato
+      </button>
+      <button mat-fab extended color="warn" (click)="openOrderForm()">
+        <mat-icon>shopping_cart</mat-icon>
+        Fazer Pedido
+      </button>
+    </div>
+  </section>
+  <section class="recent-orders" *ngIf="orders.length > 0">
+    <h2>Pedidos Recentes</h2>
+    <div class="order-list">
+      @for (order of getRecentOrders(); track order.id) {
+      <mat-card class="order-card" [class.pending]="!order.attended">
+        <mat-card-header>
+          <mat-card-title>Pedido #{{ order.id }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ order.client?.name || "Cliente não encontrado" }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <strong>Prato:</strong>
+            {{ order.dish?.name || "Prato não encontrado" }}
+          </p>
+          <p>
+            <strong>Preço:</strong>
+            {{ order.price | currency : "BRL" : "symbol" : "1.2-2" }}
+          </p>
+          <p>
+            <strong>Status:</strong>
+            <span
+              [class]="order.attended ? 'status-completed' : 'status-pending'"
+            >
+              {{ order.attended ? "Atendido" : "Pendente" }}
+            </span>
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-button
+            routerLink="/orders"
+            [queryParams]="{ id: order.id }"
+          >
+            Ver Detalhes
+          </button>
+          @if (!order.attended) {
+          <button
+            mat-button
+            color="primary"
+            (click)="markAsAttended(order.id!)"
+          >
+            Marcar Atendido
+          </button>
+          }
+        </mat-card-actions>
+      </mat-card>
+      }
+    </div>
+  </section>
+
+  @if (clients.length === 0 && dishes.length === 0 && orders.length === 0) {
+  <section class="empty-state">
+    <mat-icon class="empty-icon">restaurant</mat-icon>
+    <h2>Bem-vindo ao Restaurant Manager!</h2>
+    <p>Comece cadastrando seus primeiros clientes e pratos.</p>
+    <div class="empty-actions">
+      <button mat-raised-button color="primary" routerLink="/clients">
+        Cadastrar Primeiro Cliente
+      </button>
+      <button mat-raised-button color="accent" routerLink="/dishes">
+        Adicionar Primeiro Prato
+      </button>
+    </div>
+  </section>
+  }
 </div>
-<hr />
 }
-<h2>Dishes</h2>
-<hr />
-@for (dish of dishes; track dish.id) {
-<div>
-  <p>id: {{ dish.id }}</p>
-  <p>name: {{ dish.name }}</p>
-  <p>category: {{ dish.category }}</p>
-  <p>price: {{ dish.price }}</p>
-</div>
-<hr />
-}
-<h2>Orders</h2>
-<hr />
-@for (order of orders; track order.id) {
-<div>
-  <p>id: {{ order.id }}</p>
-  <p>client: {{ order.client?.name || "N/A" }}</p>
-  <p>dish: {{ order.dish?.name || "N/A" }}</p>
-  <p>attended: {{ order.attended }}</p>
-  <p>price: {{ order.price }}</p>
-</div>
-<hr />
-} }

@@ -1,16 +1,36 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 import { ClientService } from '../../core/services/client.service';
+import { DishService } from '../../core/services/dish.service';
+import { OrderService } from '../../core/services/order.service';
 import { Client } from '../../core/models/client.model';
 import { Dish } from '../../core/models/dish.model';
-import { DishService } from '../../core/services/dish.service';
-import { Loading } from '../../shared/components/loading/loading';
-import { forkJoin } from 'rxjs';
 import { Order } from '../../core/models/order.model';
-import { OrderService } from '../../core/services/order.service';
+import { Loading } from '../../shared/components/loading/loading';
+
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [Loading],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    Loading,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -23,7 +43,9 @@ export class Home implements OnInit {
   constructor(
     private clientService: ClientService,
     private dishService: DishService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +73,62 @@ export class Home implements OnInit {
       },
       error: (error) => {
         console.error('Erro ao carregar dados:', error);
+        this.snackBar.open('Erro ao carregar dados', 'Fechar', {
+          duration: 3000,
+        });
         this.loading = false;
+      },
+    });
+  }
+
+  getActiveClients(): number {
+    return this.clients.filter((client) => client.active !== false).length;
+  }
+
+  getUniqueCategories(): number {
+    const categories = new Set(this.dishes.map((dish) => dish.category));
+    return categories.size;
+  }
+
+  getPendingOrders(): number {
+    return this.orders.filter((order) => !order.attended).length;
+  }
+
+  getRecentOrders(): Order[] {
+    return this.orders
+      .sort((a, b) => {
+        const dateA = a.orderDate ? new Date(a.orderDate).getTime() : 0;
+        const dateB = b.orderDate ? new Date(b.orderDate).getTime() : 0;
+        return dateB - dateA;
+      })
+      .slice(0, 5);
+  }
+
+  openClientForm(): void {
+    this.router.navigate(['/clients/new']);
+  }
+
+  openDishForm(): void {
+    this.router.navigate(['/dishes/new']);
+  }
+
+  openOrderForm(): void {
+    this.router.navigate(['/orders/new']);
+  }
+
+  markAsAttended(orderId: number): void {
+    this.orderService.attend(orderId).subscribe({
+      next: () => {
+        this.snackBar.open('Pedido marcado como atendido!', 'Fechar', {
+          duration: 3000,
+        });
+        this.loadData(); // Recarregar dados
+      },
+      error: (error) => {
+        console.error('Erro ao marcar pedido:', error);
+        this.snackBar.open('Erro ao marcar pedido', 'Fechar', {
+          duration: 3000,
+        });
       },
     });
   }

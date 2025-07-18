@@ -1,10 +1,27 @@
 @use "@angular/material" as mat;
 @use "../theme-colors" as theme;
 @use "app/styles/color-utilities";
-html,
-body {
-  height: 100%;
-}
+
+@include mat.core();
+
+$theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: theme.$primary-palette,
+      tertiary: theme.$tertiary-palette,
+    ),
+    typography: (
+      brand-family: "Roboto",
+      plain-family: "Roboto",
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+@include mat.all-component-themes($theme);
 
 * {
   box-sizing: border-box;
@@ -12,30 +29,94 @@ body {
   padding: 0;
 }
 
-html {
-  color-scheme: light dark;
-  @include mat.theme(
-    (
-      color: (
-        primary: theme.$primary-palette,
-        tertiary: theme.$tertiary-palette,
-        use-system-variables: true,
-      ),
-      typography: (
-        plain-family: Roboto,
-        brand-family: Open Sans,
-        bold-weight: 900,
-        medium-weight: 500,
-        regular-weight: 300,
-      ),
-      density: 0,
-    )
-  );
+html,
+body {
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--mat-app-background-color);
+  color: var(--mat-app-on-surface);
+}
+
+.surface {
+  background-color: var(--mat-app-surface);
+  color: var(--mat-app-on-surface);
+}
+
+.surface-container {
+  background-color: var(--mat-app-surface-container);
+  color: var(--mat-app-on-surface);
+}
+
+.primary {
+  background-color: var(--mat-app-primary);
+  color: var(--mat-app-on-primary);
+}
+
+.secondary {
+  background-color: var(--mat-app-secondary);
+  color: var(--mat-app-on-secondary);
+}
+
+.tertiary {
+  background-color: var(--mat-app-tertiary);
+  color: var(--mat-app-on-tertiary);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-app-outline-variant) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--mat-app-outline-variant);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--mat-app-outline);
 }
 
 body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.status-pending {
+  color: var(--mat-app-primary);
+  background-color: var(--mat-app-primary-container);
+}
+
+.status-completed {
+  color: var(--mat-app-tertiary);
+  background-color: var(--mat-app-tertiary-container);
+}
+
+.status-error {
+  color: var(--mat-app-error);
+  background-color: var(--mat-app-error-container);
+}
+
+.mat-mdc-card {
+  background-color: var(--mat-app-surface-container) !important;
+  color: var(--mat-app-on-surface) !important;
+}
+
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button {
+  border-radius: 8px !important;
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    border-radius: 8px;
+  }
 }
