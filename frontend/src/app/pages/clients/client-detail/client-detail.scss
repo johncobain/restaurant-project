@@ -1,0 +1,43 @@
+.client-detail-container {
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.clients-summary {
+  padding: 2rem;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 1.75rem;
+    color: var(--mat-sys-on-surface);
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem;
+    border-right: 1px solid var(--mat-sys-outline);
+    .mat-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+      color: var(--mat-sys-primary);
+    }
+  }
+
+  p {
+    font-size: 1rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

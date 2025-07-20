@@ -1,1 +1,32 @@
-<p>client-detail works!</p>
+@if (!client){
+<app-loading
+  message="'Carregando detalhes do cliente...'"
+  [overlay]="true"
+></app-loading>
+}@else{
+<div class="client-detail-container">
+  <button mat-raised-button color="primary" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Voltar para Lista de Clientes
+  </button>
+  <div class="clients-summary">
+    <h1><mat-icon>people</mat-icon>Detalhes do Cliente</h1>
+    <p>ID: {{ client.id }}</p>
+    <p>Nome: {{ client.name }}</p>
+    <p>Status: {{ client.active ? "Ativo" : "Inativo" }}</p>
+    <p>Data de Nascimento: {{ client.birthDate }}</p>
+    <p>CPF: {{ client.cpf }}</p>
+    <p>Criado em: {{ client.createdAt }}</p>
+    <p>Atualizado em: {{ client.updatedAt }}</p>
+  </div>
+
+  <h3>Orders</h3>
+  <ul>
+    @if (!client.orders || client.orders.length === 0) {
+    <li>No orders found for this client.</li>
+    } @else { @for (order of client.orders; track order.id) {
+    <li>Order ID: {{ order.id }} - Total: {{ order.price }}</li>
+    } }
+  </ul>
+</div>
+}
