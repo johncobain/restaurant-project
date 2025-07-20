@@ -1,3 +1,5 @@
+import { Order } from './order.model';
+
 export interface Client {
   id?: number;
   name: string;
@@ -6,6 +8,10 @@ export interface Client {
   active?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface ClientDetails extends Client {
+  orders?: Order[];
 }
 
 export interface CreateClientDto {
@@ -18,4 +24,5 @@ export interface UpdateClientDto {
   name?: string;
   birthDate?: string;
   cpf?: string;
+  active?: boolean;
 }

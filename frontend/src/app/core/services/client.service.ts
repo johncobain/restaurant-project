@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import {
   Client,
+  ClientDetails,
   CreateClientDto,
   UpdateClientDto,
 } from '../models/client.model';
@@ -27,8 +28,8 @@ export class ClientService {
     return this.api.get<Client>(`${this.endpoint}/${id}`);
   }
 
-  getByIdDetails(id: number): Observable<Client> {
-    return this.api.get<Client>(`${this.endpoint}/${id}/details`);
+  getByIdDetails(id: number): Observable<ClientDetails> {
+    return this.api.get<ClientDetails>(`${this.endpoint}/${id}/details`);
   }
 
   create(client: CreateClientDto): Observable<Client> {
