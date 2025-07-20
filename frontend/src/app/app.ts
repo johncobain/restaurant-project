@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { RouterOutlet } from '@angular/router';
+import { Layout } from './shared/layout/layout';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatSlideToggleModule, MatButtonModule, MatIconModule],
-  templateUrl: './app.html',
+  imports: [Layout],
+  template: '<app-layout></app-layout>',
   styleUrl: './app.scss',
 })
 export class App {

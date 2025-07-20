@@ -1,0 +1,50 @@
+<div class="layout-container">
+  <header class="main-header">
+    <div class="header-content">
+      <div routerLink="/" class="logo-section">
+        <mat-icon class="logo-icon">restaurant</mat-icon>
+        <h1 class="logo-title">Restaurant Manager</h1>
+      </div>
+      <nav class="nav-links">
+        <button
+          mat-button
+          routerLink="/clients"
+          routerLinkActive="active"
+          class="nav-btn"
+        >
+          <mat-icon>people</mat-icon>
+          <span>Clientes</span>
+        </button>
+        <button
+          mat-button
+          routerLink="/dishes"
+          routerLinkActive="active"
+          class="nav-btn"
+        >
+          <mat-icon>restaurant_menu</mat-icon>
+          <span>Cardápio</span>
+        </button>
+        <button
+          mat-button
+          routerLink="/orders"
+          routerLinkActive="active"
+          class="nav-btn"
+        >
+          <mat-icon>receipt</mat-icon>
+          <span>Pedidos</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="main-footer">
+    <p>
+      &copy; 2025 Restaurant Manager. Feito com ❤️ por
+      <a href="https://github.com/johncobain" target="_blank">Andrey Gomes</a>.
+    </p>
+  </footer>
+</div>
