@@ -5,6 +5,28 @@
 ></app-loading>
 } @else {
 <div class="clients-container">
-  <p>clients works!</p>
+  <div class="clients-summary">
+    <h1><mat-icon>people</mat-icon>Clientes</h1>
+    <p>Total de Clientes: {{ clients.length }}</p>
+    <p>Clientes Ativos: {{ getActiveClients() }}</p>
+  </div>
+
+  <div class="clients-actions">
+    <!-- TODO: Dropdown to filter and Search Box -->
+    <button mat-raised-button color="primary" routerLink="/clients/new">
+      <mat-icon>add</mat-icon>
+      Novo Cliente
+    </button>
+    <button mat-stroked-button (click)="loadClients()">
+      <mat-icon>refresh</mat-icon>
+      Atualizar Lista
+    </button>
+  </div>
+
+  <app-client-list
+    [clients]="clients"
+    (clientUpdated)="onClientUpdated($event)"
+    (clientDeleted)="onClientDeleted($event)"
+  ></app-client-list>
 </div>
 }

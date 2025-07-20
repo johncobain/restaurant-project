@@ -1,0 +1,164 @@
+.client-list-container {
+  width: 100%;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.client-card {
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--mat-sys-primary);
+  }
+
+  &.inactive {
+    opacity: 0.7;
+    border-color: var(--mat-sys-error);
+  }
+
+  ::ng-deep .mat-mdc-card-header {
+    position: relative;
+    padding: 1rem 1rem 0.5rem;
+
+    .client-avatar {
+      background-color: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+
+      mat-icon {
+        font-size: 1.5rem;
+      }
+    }
+
+    .mat-mdc-card-title {
+      color: var(--mat-sys-on-surface);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .mat-mdc-card-subtitle {
+      color: var(--mat-sys-on-surface-variant);
+      font-family: "Courier New", monospace;
+      font-size: 0.9rem;
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+
+      &.active {
+        background-color: var(--mat-sys-tertiary-container);
+        color: var(--mat-sys-on-tertiary-container);
+      }
+
+      &:not(.active) {
+        background-color: var(--mat-sys-error-container);
+        color: var(--mat-sys-on-error-container);
+      }
+
+      mat-icon {
+        display: flex;
+        align-items: center;
+        justify-self: center;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem;
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 0.9rem;
+
+      mat-icon {
+        font-size: 1.1rem;
+        color: var(--mat-sys-primary);
+      }
+    }
+  }
+
+  ::ng-deep .mat-mdc-card-actions {
+    padding: 0.75rem 1rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: var(--mat-sys-surface-container-low);
+  border-radius: 12px;
+  margin: 1rem 0;
+
+  .empty-icon {
+    font-size: 3rem;
+    color: var(--mat-sys-on-surface-variant);
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+
+  h3 {
+    color: var(--mat-sys-on-surface);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  p {
+    color: var(--mat-sys-on-surface-variant);
+    margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .clients-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .client-card {
+    ::ng-deep .mat-mdc-card-header {
+      padding: 1rem !important;
+    }
+
+    .client-info {
+      padding: 0 1rem !important;
+    }
+
+    ::ng-deep .mat-mdc-card-actions {
+      padding: 0.75rem 1rem 1rem !important;
+    }
+  }
+}
