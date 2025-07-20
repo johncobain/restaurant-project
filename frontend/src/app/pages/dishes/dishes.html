@@ -1,1 +1,10 @@
-<p>dishes works!</p>
+@if (loading) {
+<app-loading
+  message="'Carregando dados dos pratos...'"
+  [overlay]="true"
+></app-loading>
+} @else {
+<div class="dishes-container">
+  <p>dishes works!</p>
+</div>
+}

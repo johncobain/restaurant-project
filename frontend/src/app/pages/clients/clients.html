@@ -1,1 +1,10 @@
-<p>clients works!</p>
+@if (loading) {
+<app-loading
+  message="'Carregando dados dos clientes...'"
+  [overlay]="true"
+></app-loading>
+} @else {
+<div class="clients-container">
+  <p>clients works!</p>
+</div>
+}
