@@ -125,13 +125,17 @@
               {{ order.attended ? "Atendido" : "Pendente" }}
             </span>
           </p>
+          <p>
+            <strong>Data:</strong>
+            {{ order.createdAt | date : "dd/MM/yyyy" }}
+          </p>
+          <p>
+            <strong>Hora:</strong>
+            {{ order.createdAt | date : "HH:mm" }}
+          </p>
         </mat-card-content>
         <mat-card-actions>
-          <button
-            mat-button
-            routerLink="/orders"
-            [queryParams]="{ id: order.id }"
-          >
+          <button mat-button routerLink="/orders/{{ order.id }}">
             Ver Detalhes
           </button>
           @if (!order.attended) {

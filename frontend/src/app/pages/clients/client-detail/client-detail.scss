@@ -8,7 +8,7 @@
 }
 
 .clients-summary {
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: var(--mat-sys-surface-container);
   border-radius: 12px;
   margin: 1.5rem 0;
@@ -18,12 +18,11 @@
   align-items: center;
 
   h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     color: var(--mat-sys-on-surface);
     display: flex;
     flex-direction: row;
-    margin: 0.5rem;
-    border-right: 1px solid var(--mat-sys-outline);
+    padding: 1rem;
     .mat-icon {
       width: 1.5rem;
       height: 1.5rem;
@@ -38,6 +37,97 @@
 
   p {
     font-size: 1rem;
+    padding: 1rem;
     color: var(--mat-sys-on-surface-variant);
+    border-left: 1px solid var(--mat-sys-outline);
+  }
+}
+
+.recent-orders {
+  padding: 2rem;
+
+  h2 {
+    color: var(--mat-sys-on-surface);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  .orders-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .order-card {
+    margin-bottom: 1rem;
+    background-color: var(--mat-sys-surface-container);
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      border-color: var(--mat-sys-outline);
+    }
+
+    &.pending {
+      border-left: 4px solid var(--mat-sys-tertiary);
+
+      ::ng-deep .mat-mdc-card-header {
+        border-bottom: 1px solid var(--mat-sys-outline-variant);
+      }
+    }
+
+    ::ng-deep .mat-mdc-card-header {
+      padding: 1rem 1rem 0.75rem;
+
+      .mat-mdc-card-title {
+        font-size: 1rem;
+        color: var(--mat-sys-on-surface);
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+
+      .mat-mdc-card-subtitle {
+        color: var(--mat-sys-on-surface-variant);
+        font-size: 0.875rem;
+      }
+    }
+
+    ::ng-deep .mat-mdc-card-content {
+      padding: 0.75rem 1rem;
+
+      p {
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        color: var(--mat-sys-on-surface);
+
+        strong {
+          color: var(--mat-sys-on-surface);
+          font-weight: 600;
+        }
+      }
+
+      .status-completed {
+        color: var(--mat-sys-on-tertiary-container);
+        font-weight: 600;
+        background-color: var(--mat-sys-tertiary-container);
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        display: inline-block;
+      }
+
+      .status-pending {
+        color: var(--mat-sys-on-error-container);
+        font-weight: 600;
+        background-color: var(--mat-sys-error-container);
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        display: inline-block;
+      }
+    }
   }
 }

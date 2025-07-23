@@ -10,23 +10,84 @@
     Voltar para Lista de Clientes
   </button>
   <div class="clients-summary">
-    <h1><mat-icon>people</mat-icon>Detalhes do Cliente</h1>
-    <p>ID: {{ client.id }}</p>
-    <p>Nome: {{ client.name }}</p>
-    <p>Status: {{ client.active ? "Ativo" : "Inativo" }}</p>
-    <p>Data de Nascimento: {{ client.birthDate }}</p>
-    <p>CPF: {{ client.cpf }}</p>
-    <p>Criado em: {{ client.createdAt }}</p>
-    <p>Atualizado em: {{ client.updatedAt }}</p>
+    <h1><mat-icon>people</mat-icon>Detalhes</h1>
+    <p>
+      <strong>ID: </strong><br />
+      {{ client.id }}
+    </p>
+    <p>
+      <strong>Nome: </strong><br />
+      {{ client.name }}
+    </p>
+    <p>
+      <strong>Status: </strong><br />
+      {{ client.active ? "Ativo" : "Inativo" }}
+    </p>
+    <p>
+      <strong>Data de Nascimento: </strong><br />
+      {{ client.birthDate }}
+    </p>
+    <p>
+      <strong>CPF: </strong><br />
+      {{ client.cpf }}
+    </p>
+    <p>
+      <strong>Criado em: </strong><br />
+      {{ formatDate(client.createdAt) }}
+    </p>
+    <p>
+      <strong>Atualizado em: </strong><br />
+      {{ formatDate(client.updatedAt) }}
+    </p>
   </div>
 
-  <h3>Orders</h3>
-  <ul>
-    @if (!client.orders || client.orders.length === 0) {
-    <li>No orders found for this client.</li>
-    } @else { @for (order of client.orders; track order.id) {
-    <li>Order ID: {{ order.id }} - Total: {{ order.price }}</li>
-    } }
-  </ul>
+  <section class="recent-orders">
+    <h2>Pedidos Recentes do Cliente {{ client.name }}</h2>
+    <div class="order-list">
+      @if (client.orders?.length === 0) {
+      <p>Nenhum pedido encontrado para este cliente.</p>
+      } @else { @for (order of client.orders; track order.id) {
+      <mat-card class="order-card" [class.pending]="!order.attended">
+        <mat-card-header>
+          <mat-card-title>Pedido #{{ order.id }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ client.name }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <strong>Prato:</strong>
+            {{ getDishName(order.dishId) || "Prato não encontrado" }}
+          </p>
+          <p>
+            <strong>Preço:</strong>
+            R${{ order.price }}
+          </p>
+          <p>
+            <strong>Status:</strong>
+            <span
+              [class]="order.attended ? 'status-completed' : 'status-pending'"
+            >
+              {{ order.attended ? "Atendido" : "Pendente" }}
+            </span>
+          </p>
+          <p>
+            <strong>Data:</strong>
+            {{ order.createdAt | date : "dd/MM/yyyy" }}
+          </p>
+          <p>
+            <strong>Hora:</strong>
+            {{ order.createdAt | date : "HH:mm" }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button routerLink="/orders/{{ order.id }}">
+            Ver Detalhes
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      }}
+    </div>
+  </section>
 </div>
 }
