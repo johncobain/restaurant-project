@@ -58,4 +58,15 @@ export class Dishes implements OnInit {
     const categories = new Set(this.dishes.map((dish) => dish.category));
     return categories.size;
   }
+
+  onDishUpdated(updatedDish: Dish): void {
+    const index = this.dishes.findIndex((d) => d.id === updatedDish.id);
+    if (index !== -1) {
+      this.dishes[index] = updatedDish;
+    }
+  }
+
+  onDishDeleted(dishId: number): void {
+    this.dishes = this.dishes.filter((d) => d.id !== dishId);
+  }
 }

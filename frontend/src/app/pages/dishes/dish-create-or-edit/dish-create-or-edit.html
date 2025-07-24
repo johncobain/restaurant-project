@@ -1,1 +1,159 @@
-<p>dish-create-or-edit works!</p>
+@if (loading) {
+<app-loading
+  message="Carregando dados do prato..."
+  [overlay]="true"
+></app-loading>
+} @else {
+<div class="dish-form-container">
+  <div class="form-header">
+    <div class="header-content">
+      <button
+        mat-icon-button
+        (click)="onCancel()"
+        matTooltip="Voltar para lista"
+        class="back-button"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="header-title">
+        <mat-icon class="header-icon">
+          {{ isEditMode ? "edit" : "restaurant_menu" }}
+        </mat-icon>
+        <h1>{{ isEditMode ? "Editar Prato" : "Novo Prato" }}</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-content">
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>{{ isEditMode ? "edit" : "restaurant_menu" }}</mat-icon>
+          Dados do Prato
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{
+            isEditMode
+              ? "Atualize as informações do prato"
+              : "Preencha os dados do novo prato"
+          }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="dishForm" (ngSubmit)="onSubmit()" class="dish-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome do Prato</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Digite o nome do prato"
+              maxlength="100"
+            />
+            <mat-icon matSuffix>restaurant_menu</mat-icon>
+
+            @if (name?.touched && name?.errors) {
+            <mat-error>{{ getNameError() }}</mat-error>
+            }
+
+            <mat-hint align="end">{{ name?.value?.length || 0 }}/100</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descrição</mat-label>
+            <input
+              matInput
+              formControlName="description"
+              placeholder="Digite a descrição do prato"
+              maxlength="500"
+            />
+            <mat-icon matSuffix>description</mat-icon>
+
+            @if (description?.touched && description?.errors) {
+            <mat-error>{{ getDescriptionError() }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Preço</mat-label>
+            <input
+              matInput
+              formControlName="price"
+              placeholder="Digite o preço do prato"
+              (input)="onPriceInput($event)"
+            />
+
+            @if (price?.touched && price?.errors) {
+            <mat-error>{{ getPriceError() }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Categoria</mat-label>
+            <input
+              matInput
+              formControlName="category"
+              placeholder="Digite a categoria do prato"
+              maxlength="50"
+            />
+            <mat-icon matSuffix>category</mat-icon>
+            @if (category?.touched && category?.errors) {
+            <mat-error>Categoria é obrigatória</mat-error>
+            }
+          </mat-form-field>
+
+          @if (isEditMode) {
+          <div class="additional-info">
+            <mat-card class="info-card">
+              <mat-card-content>
+                <div class="info-item">
+                  <mat-icon>info</mat-icon>
+                  <span>Prato cadastrado no sistema</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          }
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions class="form-actions">
+        <div class="actions-container">
+          <div class="secondary-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="onCancel()"
+              [disabled]="saving"
+            >
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </div>
+
+          <div class="primary-actions">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="onSubmit()"
+              [disabled]="saving || dishForm.invalid"
+            >
+              @if (saving) {
+              <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+              } @else {
+              <mat-icon>{{ isEditMode ? "save" : "restaurant_menu" }}</mat-icon>
+              }
+
+              <span>{{
+                saving ? "Salvando..." : isEditMode ? "Atualizar" : "Cadastrar"
+              }}</span>
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+}
