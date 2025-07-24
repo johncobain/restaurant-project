@@ -5,6 +5,28 @@
 ></app-loading>
 } @else {
 <div class="orders-container">
-  <p>orders works!</p>
+  <div class="orders-summary">
+    <h1><mat-icon>receipt</mat-icon>Pedidos</h1>
+    <p>Total de Pedidos: {{ orders.length }}</p>
+    <p>Pendente: {{ getPendingOrdersCount() }}</p>
+  </div>
+
+  <div class="orders-actions">
+    <!-- TODO: Dropdown to filter and Search Box -->
+    <button mat-raised-button color="primary" routerLink="/orders/new">
+      <mat-icon>add</mat-icon>
+      Novo Pedido
+    </button>
+    <button mat-stroked-button (click)="loadOrders()">
+      <mat-icon>refresh</mat-icon>
+      Atualizar Lista
+    </button>
+  </div>
+
+  <!-- <app-order-list
+    [orders]="orders"
+    (orderUpdated)="onOrderUpdated($event)"
+    (orderDeleted)="onOrderDeleted($event)"
+  ></app-order-list> -->
 </div>
 }

@@ -1,10 +1,32 @@
 @if (loading) {
 <app-loading
-  message="'Carregando dados dos pratos...'"
+  message="'Carregando dados do cardápio...'"
   [overlay]="true"
 ></app-loading>
 } @else {
 <div class="dishes-container">
-  <p>dishes works!</p>
+  <div class="dishes-summary">
+    <h1><mat-icon>restaurant_menu</mat-icon>Pratos</h1>
+    <p>Total de Pratos: {{ dishes.length }}</p>
+    <p>Categorias: {{ getUniqueCategories() }}</p>
+  </div>
+
+  <div class="dishes-actions">
+    <!-- TODO: Dropdown to filter and Search Box -->
+    <button mat-raised-button color="primary" routerLink="/dishes/new">
+      <mat-icon>add</mat-icon>
+      Novo Prato
+    </button>
+    <button mat-stroked-button (click)="loadDishes()">
+      <mat-icon>refresh</mat-icon>
+      Atualizar Lista
+    </button>
+  </div>
+
+  <!-- <app-dish-list
+    [dishes]="dishes"
+    (dishUpdated)="onDishUpdated($event)"
+    (dishDeleted)="onDishDeleted($event)"
+  ></app-dish-list> -->
 </div>
 }

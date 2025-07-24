@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class Clients implements OnInit {
   clients: Client[] = [];
-  loading = false;
+  loading = true;
 
   constructor(
     private clientService: ClientService,
