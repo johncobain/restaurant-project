@@ -1,3 +1,5 @@
+import { Order } from './order.model';
+
 export interface Dish {
   id?: number;
   name: string;
@@ -6,6 +8,10 @@ export interface Dish {
   category: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface DishDetails extends Dish {
+  orders?: Order[];
 }
 
 export interface CreateDishDto {

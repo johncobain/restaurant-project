@@ -19,7 +19,7 @@ async function getDetails(id) {
   const dish = await Dish.findByPk(id, {
     include: [
       {
-        association: "dishes",
+        association: "orders",
       },
     ],
   });
