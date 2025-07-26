@@ -24,6 +24,17 @@
 
       <mat-card-content>
         <div class="client-info">
+          @if (client.totalSpent){
+          <div class="info-item">
+            <mat-icon>attach_money</mat-icon>
+            <span>Total Gasto: {{ client.totalSpent | currency : "BRL" }}</span>
+          </div>
+          } @if (client.totalOrders) {
+          <div class="info-item">
+            <mat-icon>list</mat-icon>
+            <span>Total de Pedidos: {{ client.totalOrders }}</span>
+          </div>
+          }
           <div class="info-item">
             <mat-icon>cake</mat-icon>
             <span>{{ formatBirthDate(client.birthDate) }}</span>

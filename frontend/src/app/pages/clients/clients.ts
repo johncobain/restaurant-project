@@ -53,6 +53,43 @@ export class Clients implements OnInit {
       },
     });
   }
+
+  loadMostSpent(): void {
+    this.clientService.getMostSpent().subscribe({
+      next: (clients) => {
+        this.clients = clients;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading most spent clients:', error);
+        this.snackBar.open('Erro ao carregar clientes mais gastos', 'Fechar', {
+          duration: 3000,
+        });
+        this.loading = false;
+      },
+    });
+  }
+
+  loadMostOrders(): void {
+    this.clientService.getMostOrders().subscribe({
+      next: (clients) => {
+        this.clients = clients;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading clients with most orders:', error);
+        this.snackBar.open(
+          'Erro ao carregar clientes com mais pedidos',
+          'Fechar',
+          {
+            duration: 3000,
+          }
+        );
+        this.loading = false;
+      },
+    });
+  }
+
   getActiveClients(): number {
     return this.clients.filter((client) => client.active === true).length;
   }

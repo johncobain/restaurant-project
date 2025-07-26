@@ -36,10 +36,14 @@
 
 .clients-actions {
   display: flex;
-  gap: 1rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--mat-sys-outline);
+
+  .data-actions {
+    display: flex;
+    gap: 1rem;
+  }
 }

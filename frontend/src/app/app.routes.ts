@@ -6,7 +6,6 @@ import { Orders } from './pages/orders/orders';
 import { Dishes } from './pages/dishes/dishes';
 import { ClientDetail } from './pages/clients/client-detail/client-detail';
 import { DishDetail } from './pages/dishes/dish-detail/dish-detail';
-import { OrderDetail } from './pages/orders/order-detail/order-detail';
 import { ClientCreateOrEdit } from './pages/clients/client-create-or-edit/client-create-or-edit';
 import { DishCreateOrEdit } from './pages/dishes/dish-create-or-edit/dish-create-or-edit';
 import { OrderCreateOrEdit } from './pages/orders/order-create-or-edit/order-create-or-edit';
@@ -27,7 +26,6 @@ export const routes: Routes = [
 
   { path: 'orders', component: Orders },
   { path: 'orders/new', component: OrderCreateOrEdit },
-  { path: 'orders/:id', component: OrderDetail },
   { path: 'orders/:id/edit', component: OrderCreateOrEdit },
 
   { path: '**', redirectTo: '' },

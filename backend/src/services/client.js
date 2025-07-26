@@ -118,7 +118,7 @@ async function listByOrdersQuantity(limit) {
   if (limit) {
     query.limit = limit;
   }
-  return await Cliente.findAll(query);
+  return await Client.findAll(query);
 }
 
 async function listByMostSpent(limit) {
@@ -136,7 +136,7 @@ async function listByMostSpent(limit) {
         include: [
           {
             model: Dish,
-            as: "dishes",
+            as: "dish",
             attributes: [],
           },
         ],

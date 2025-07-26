@@ -121,11 +121,28 @@ export class Home implements OnInit {
         this.snackBar.open('Pedido marcado como atendido!', 'Fechar', {
           duration: 3000,
         });
-        this.loadData(); // Recarregar dados
+        this.loadData();
       },
       error: (error) => {
         console.error('Erro ao marcar pedido:', error);
         this.snackBar.open('Erro ao marcar pedido', 'Fechar', {
+          duration: 3000,
+        });
+      },
+    });
+  }
+
+  markAsUnattended(orderId: number): void {
+    this.orderService.unattend(orderId).subscribe({
+      next: () => {
+        this.snackBar.open('Pedido marcado como não atendido!', 'Fechar', {
+          duration: 3000,
+        });
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Erro ao desmarcar pedido:', error);
+        this.snackBar.open('Erro ao desmarcar pedido', 'Fechar', {
           duration: 3000,
         });
       },

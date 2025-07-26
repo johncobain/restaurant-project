@@ -8,6 +8,8 @@ export interface Client {
   active?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  totalSpent?: string;
+  totalOrders?: string;
 }
 
 export interface ClientDetails extends Client {

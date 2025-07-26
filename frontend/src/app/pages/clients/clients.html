@@ -12,15 +12,26 @@
   </div>
 
   <div class="clients-actions">
-    <!-- TODO: Dropdown to filter and Search Box -->
-    <button mat-raised-button color="primary" routerLink="/clients/new">
-      <mat-icon>add</mat-icon>
-      Novo Cliente
-    </button>
-    <button mat-stroked-button (click)="loadClients()">
-      <mat-icon>refresh</mat-icon>
-      Atualizar Lista
-    </button>
+    <div class="data-actions">
+      <button mat-stroked-button (click)="loadMostSpent()">
+        <mat-icon>attach_money</mat-icon>
+        Clientes Que Mais Gastaram
+      </button>
+      <button mat-stroked-button (click)="loadMostOrders()">
+        <mat-icon>star</mat-icon>
+        Clientes Que Mais Pediram
+      </button>
+    </div>
+    <div class="data-actions">
+      <button mat-raised-button color="primary" routerLink="/clients/new">
+        <mat-icon>add</mat-icon>
+        Novo Cliente
+      </button>
+      <button mat-stroked-button (click)="loadClients()">
+        <mat-icon>refresh</mat-icon>
+        Atualizar Lista
+      </button>
+    </div>
   </div>
 
   <app-client-list
