@@ -12,15 +12,22 @@
   </div>
 
   <div class="dishes-actions">
-    <!-- TODO: Dropdown to filter and Search Box -->
-    <button mat-raised-button color="primary" routerLink="/dishes/new">
-      <mat-icon>add</mat-icon>
-      Novo Prato
-    </button>
-    <button mat-stroked-button (click)="loadDishes()">
-      <mat-icon>refresh</mat-icon>
-      Atualizar Lista
-    </button>
+    <div class="data-actions">
+      <button mat-stroked-button (click)="loadByPopularity()">
+        <mat-icon>star</mat-icon>
+        Pratos Mais Pedidos
+      </button>
+    </div>
+    <div class="data-actions">
+      <button mat-raised-button color="primary" routerLink="/dishes/new">
+        <mat-icon>add</mat-icon>
+        Novo Prato
+      </button>
+      <button mat-stroked-button (click)="loadDishes()">
+        <mat-icon>refresh</mat-icon>
+        Atualizar Lista
+      </button>
+    </div>
   </div>
 
   <app-dish-list

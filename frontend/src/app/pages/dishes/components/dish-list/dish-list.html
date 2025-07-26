@@ -19,6 +19,12 @@
 
       <mat-card-content>
         <div class="dish-info">
+          @if (dish.totalOrders){
+          <div class="info-item">
+            <mat-icon>list</mat-icon>
+            <span>Total de Pedidos: {{ dish.totalOrders }}</span>
+          </div>
+          }
           <div class="info-item">
             <mat-icon>description</mat-icon>
             <span>{{ dish.description }}</span>

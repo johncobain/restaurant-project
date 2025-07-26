@@ -54,6 +54,22 @@ export class Dishes implements OnInit {
     });
   }
 
+  loadByPopularity(): void {
+    this.dishService.getByPopularity().subscribe({
+      next: (dishes) => {
+        this.dishes = dishes;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading dishes with most orders:', error);
+        this.snackBar.open('Erro ao carregar pratos mais pedidos', 'Fechar', {
+          duration: 3000,
+        });
+        this.loading = false;
+      },
+    });
+  }
+
   getUniqueCategories(): number {
     const categories = new Set(this.dishes.map((dish) => dish.category));
     return categories.size;

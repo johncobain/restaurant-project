@@ -8,6 +8,7 @@ export interface Dish {
   category: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  totalOrders?: number;
 }
 
 export interface DishDetails extends Dish {
